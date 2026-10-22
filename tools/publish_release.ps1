@@ -27,8 +27,12 @@ if ($LASTEXITCODE -ne 0) {
 git push origin main
 if ($LASTEXITCODE -ne 0) { throw 'git push failed' }
 
+# "release not found" on stderr would stop the script under 'Stop' in PowerShell 5.1
+$ErrorActionPreference = 'Continue'
 gh release view $tag --repo $repo *> $null
-if ($LASTEXITCODE -eq 0) {
+$exists = ($LASTEXITCODE -eq 0)
+$ErrorActionPreference = 'Stop'
+if ($exists) {
     Write-Host "Release $tag exists - replacing its files" -ForegroundColor Yellow
     gh release upload $tag $zip $sums --repo $repo --clobber
 } else {
