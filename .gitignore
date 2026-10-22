@@ -1,0 +1,9 @@
+# editor and assistant settings
+.vscode/
+.claude/
+
+# temporary staging folders made by tools/build_release.ps1
+dist/*/
+
+# local scratch folder, not part of the project
+/1/
